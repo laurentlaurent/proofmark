@@ -6,7 +6,7 @@ Proofmark reads what product teams already write (a spec, its previous version, 
 
 It is built around one idea: support docs fail when they guess. So Proofmark extracts the facts first, shows you the questions the spec leaves open, writes every document from those facts only, and marks up each draft with checks you can verify before publishing.
 
-![Walkthrough: load a sample, extract the facts, draft the documents and review their proof marks](docs/proofmark_walkthrough.gif)
+![Walkthrough: load a sample, extract the facts, draft the documents and review their proof marks](docs/proofmark-walkthrough.gif)
 
 ## Quick start
 
