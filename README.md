@@ -6,8 +6,7 @@ Proofmark reads what product teams already write (a spec, its previous version, 
 
 It is built around one idea: support docs fail when they guess. So Proofmark extracts the facts first, shows you the questions the spec leaves open, writes every document from those facts only, and marks up each draft with checks you can verify before publishing.
 
-
-![A draft Help Centre article with its proof marks in the margin](docs/drafts.png)
+![Walkthrough: load a sample, extract the facts, draft the documents and review their proof marks](docs/proofmark_walkthrough.gif)
 
 ## Quick start
 
@@ -58,6 +57,8 @@ Copy `.env.example` to `.env`, fill in one key and restart. You can also switch 
 | What changed | Support team | Before and after table, Help Centre articles to update |
 
 ![The fact sheet, with open questions highlighted](docs/fact-sheet.png)
+
+![A draft Help Centre article with its proof marks in the margin](docs/drafts.png)
 
 ### Command line (for CI)
 
