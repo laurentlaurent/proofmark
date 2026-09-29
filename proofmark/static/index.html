@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofmark: feature spec to support docs</title>
+  <meta name="description" content="Turn a feature spec into support documentation players can trust.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316213A'/%3E%3Cpath d='M9 23 21 11l2.5 2.5-12 12H9z' fill='%23FFE45E'/%3E%3Cpath d='m21 11 2-2 2.5 2.5-2 2z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,600&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#desk">Skip to the workspace</a>
+
+  <header class="masthead">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#16213A"/>
+        <path d="M9 23 21 11l2.5 2.5-12 12H9z" fill="#FFE45E"/>
+        <path d="m21 11 2-2 2.5 2.5-2 2z" fill="#fff"/>
+      </svg>
+      <div>
+        <p class="brand-name">Proofmark</p>
+        <p class="brand-tagline">Turn a feature spec into support docs players can trust.</p>
+      </div>
+    </div>
+    <button type="button" class="model-button" id="model-button" aria-haspopup="dialog">
+      <span class="model-dot" id="model-dot" aria-hidden="true"></span>
+      <span id="model-label">Loading models</span>
+    </button>
+  </header>
+
+  <main class="layout">
+    <aside class="rail" aria-labelledby="sources-title">
+      <h2 id="sources-title">Sources</h2>
+      <p class="hint">Proofmark only writes what these sources say.</p>
+
+      <div class="samples" id="samples" aria-label="Samples"></div>
+
+      <div class="field">
+        <div class="field-head">
+          <label for="spec">Feature spec</label>
+          <label class="upload-link">Upload file<input type="file" accept=".md,.markdown,.txt" data-target="spec" hidden></label>
+        </div>
+        <textarea id="spec" rows="14" spellcheck="true" placeholder="Paste the spec, PRD or release brief. Markdown or plain text."></textarea>
+      </div>
+
+      <details class="field optional" id="previous-wrap">
+        <summary>Previous version <span class="muted">optional</span></summary>
+        <p class="hint">Add it to get a before and after comparison.</p>
+        <textarea id="previous_spec" rows="7" aria-label="Previous version of the spec"></textarea>
+      </details>
+
+      <details class="field optional" id="diff-wrap">
+        <summary>Code changes <span class="muted">optional</span></summary>
+        <p class="hint">A git diff. Only player-visible text and limits are read from it.</p>
+        <textarea id="code_diff" rows="7" class="mono" spellcheck="false" aria-label="Code changes as a diff"></textarea>
+        <label class="upload-link">Upload .diff<input type="file" accept=".diff,.patch,.txt" data-target="code_diff" hidden></label>
+      </details>
+
+      <details class="field optional" id="shots-wrap">
+        <summary>Screenshots <span class="muted">optional</span></summary>
+        <p class="hint">Used for exact button labels and messages. Needs a model that reads images.</p>
+        <div class="dropzone" id="dropzone">
+          Drop images here or <label class="upload-link inline">browse<input type="file" id="shot-input" accept="image/png,image/jpeg,image/webp" multiple hidden></label>
+        </div>
+        <ul class="thumbs" id="thumbs"></ul>
+      </details>
+
+      <fieldset class="voice">
+        <legend>Voice</legend>
+        <label>Product<input id="product" value="Blitz" autocomplete="off"></label>
+        <label>Tone
+          <select id="tone">
+            <option value="friendly">Friendly</option>
+            <option value="neutral">Neutral</option>
+            <option value="playful">Playful</option>
+          </select>
+        </label>
+        <label>Language
+          <select id="language">
+            <option>English</option><option>French</option><option>Spanish</option>
+            <option>German</option><option>Italian</option><option>Portuguese</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <button type="button" class="button primary wide" id="extract-btn">Extract facts</button>
+      <p class="status-line" id="extract-status" role="status" aria-live="polite"></p>
+    </aside>
+
+    <section class="desk" id="desk" aria-label="Workspace" tabindex="-1">
+      <ol class="steps" id="steps">
+        <li data-step="1"><span class="step-num">1</span>Add sources</li>
+        <li data-step="2"><span class="step-num">2</span>Check the facts</li>
+        <li data-step="3"><span class="step-num">3</span>Review drafts</li>
+      </ol>
+
+      <div class="notice error" id="error" role="alert" hidden>
+        <p id="error-text"></p>
+        <button type="button" class="icon-button" id="error-close" aria-label="Dismiss">&times;</button>
+      </div>
+
+      <section class="empty" id="empty">
+        <h1>From spec to Help Centre, without the guesswork.</h1>
+        <p class="lede">Paste a feature spec or load a sample. Proofmark pulls out the facts, highlights what the spec leaves unanswered, then drafts every document from those facts only.</p>
+        <dl class="promises">
+          <div><dt>One fact sheet</dt><dd>Correct a fact once and every draft follows.</dd></div>
+          <div><dt><mark>The questions players will ask</mark></dt><dd>Surfaced before you publish, not after the tickets arrive.</dd></div>
+          <div><dt>Proof marks on every draft</dt><dd>Reading level, internal jargon, and numbers that don't match the sources.</dd></div>
+        </dl>
+        <div class="notice demo" id="demo-notice" hidden>
+          <p>You're in demo mode: drafts come from templates, not AI. A free Gemini or Groq key gives real drafts and the AI fact-check.</p>
+          <button type="button" class="button secondary small" id="demo-setup">Set up a model</button>
+        </div>
+      </section>
+
+      <section class="facts" id="facts" hidden aria-labelledby="facts-title"></section>
+      <section class="drafts" id="drafts" hidden aria-labelledby="drafts-title"></section>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="model-dialog" aria-labelledby="model-title">
+    <form method="dialog" id="model-form">
+      <h2 id="model-title">Model</h2>
+      <p class="form-error" id="model-error" role="alert" hidden></p>
+      <label>Provider<select id="provider"></select></label>
+      <p class="hint" id="provider-help"></p>
+      <label id="model-row">Model name<input id="model" autocomplete="off" spellcheck="false"></label>
+      <label id="base-url-row">API base URL<input id="base_url" autocomplete="off" spellcheck="false" placeholder="https://example.com/v1"></label>
+      <label id="key-row">API key<input id="api_key" type="password" autocomplete="off" spellcheck="false"></label>
+      <label class="check" id="vision-row"><input type="checkbox" id="vision"> Model reads images</label>
+      <p class="hint">A key typed here stays in this tab and only goes to your local Proofmark server. For a permanent setup, put it in <code>.env</code>.</p>
+      <div class="dialog-actions">
+        <button type="button" class="button ghost" id="model-cancel">Cancel</button>
+        <button type="submit" class="button primary" id="model-save">Use this model</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

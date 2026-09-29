@@ -1,0 +1,16 @@
+{
+  "id": "quick-rematch",
+  "description": "Deliberately thin spec: no platforms, versions, regions or failure cases. Tests that Proofmark asks instead of guessing.",
+  "sources": {"spec": "evals/specs/quick-rematch.md"},
+  "settings": {"product": "Blitz", "tone": "neutral", "language": "English"},
+  "expect": {
+    "facts": ["Rematch", "10 seconds", "same entry fee"],
+    "open_questions": [["availab", "platform", "version", "region", "who can"],
+                       ["wrong", "disconnect", "error", "fail", "problem", "leave", "refund"]],
+    "player_docs_must_not_include": ["iOS", "Android", "risk-free", "guaranteed"],
+    "documents": {
+      "help_article": {"must_include": ["Rematch", "10 seconds", "same entry fee"]},
+      "faq": {"must_include": ["Rematch", "10 seconds"]}
+    }
+  }
+}

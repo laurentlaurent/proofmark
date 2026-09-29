@@ -1,0 +1,28 @@
+{
+  "id": "deposit-rescue",
+  "description": "Payments feature with a previous version and a code diff. Tests limits, exact messages, change detection and code-name leaks.",
+  "sources": {
+    "spec": "samples/deposit-rescue/spec.md",
+    "previous_spec": "samples/deposit-rescue/previous.md",
+    "code_diff": "samples/deposit-rescue/changes.diff"
+  },
+  "settings": {"product": "Blitz", "tone": "friendly", "language": "English"},
+  "expect": {
+    "facts": ["$100", "$5", "5.12", "Apple Pay", "PayPal", "Face ID", "Responsible Gaming",
+              ["1 to 3 business days", "1-3 business days", "1\u20133 business days"],
+              "Your bank declined this payment."],
+    "internal_terms": ["Project Safety Net", "PAY-2143", "deposit_rescue_enabled"],
+    "open_questions": ["Google Pay"],
+    "stale_articles": ["knowledge_base/adding-funds.md", "knowledge_base/deposit-declined.md"],
+    "player_docs_must_not_include": ["Project Safety Net", "PAY-2143", "deposit_rescue", "Google Pay",
+                                     "risk-free", "guaranteed"],
+    "documents": {
+      "help_article": {"must_include": ["$100", "Apple Pay", "PayPal", "5.12", "Your bank declined this payment."]},
+      "faq": {"must_include": ["$100", "Apple Pay", "PayPal"]},
+      "release_notes": {"must_include": ["Apple Pay", "PayPal", "$100"]},
+      "agent_brief": {"must_include": ["Google Pay", "Apple Pay",
+                                       ["1 to 3 business days", "1-3 business days", "1\u20133 business days"]]},
+      "whats_changed": {"must_include": ["$15", "$40", "$100", "Payment failed", ["add funds", "adding funds"]]}
+    }
+  }
+}

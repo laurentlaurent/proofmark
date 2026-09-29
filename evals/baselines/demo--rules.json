@@ -1,0 +1,19 @@
+{
+  "run_at": "2026-09-28T10:08:12Z",
+  "provider": "demo",
+  "model": "rules",
+  "prompt_version": "2026-09-28.1",
+  "fact_check": true,
+  "metrics": {
+    "open_question_recall": 1.0,
+    "doc_fact_coverage": 0.966,
+    "stale_article_recall": 1.0,
+    "internal_terms_recall": 1.0,
+    "fact_sheet_coverage": 1.0,
+    "leaks": 0,
+    "docs_with_failing_checks": 0,
+    "unsupported_claims": 0,
+    "avg_reading_grade": 3.8,
+    "errors": 0
+  }
+}

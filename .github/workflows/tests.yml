@@ -1,0 +1,19 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -r requirements-dev.txt
+      - run: pytest -q
+      - name: Draft the sample docs offline (smoke test of the CLI)
+        run: python -m proofmark draft --provider demo --spec samples/deposit-rescue/spec.md --previous samples/deposit-rescue/previous.md --diff samples/deposit-rescue/changes.diff --docs help_article,faq,release_notes,agent_brief,whats_changed --out proofmark-output
+      - name: Regression evaluation (demo mode against the saved baseline)
+        run: python -m proofmark eval --provider demo

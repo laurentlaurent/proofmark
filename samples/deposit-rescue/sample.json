@@ -1,0 +1,11 @@
+{
+  "title": "Deposit Rescue (v2 vs v1)",
+  "description": "Payments feature with a previous version, a code diff and a screenshot.",
+  "settings": {"product": "Blitz", "tone": "friendly", "language": "English"},
+  "files": {
+    "spec": "spec.md",
+    "previous_spec": "previous.md",
+    "code_diff": "changes.diff",
+    "screenshots": ["rescue-sheet.png"]
+  }
+}

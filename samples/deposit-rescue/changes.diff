@@ -1,0 +1,33 @@
+diff --git a/src/payments/DepositFlow.tsx b/src/payments/DepositFlow.tsx
+index 3f1c2aa..8b9e0d4 100644
+--- a/src/payments/DepositFlow.tsx
++++ b/src/payments/DepositFlow.tsx
+@@ -9,16 +9,33 @@ import { flags } from '../config/flags';
+ import { track } from '../analytics';
+ 
+-const MAX_DEPOSIT_USD = { applePay: 15, payPal: 40, card: 100 };
++const MAX_DEPOSIT_USD = { applePay: 100, payPal: 100, card: 100 };
++const RESCUE_OFFERS_PER_DECLINE = 1;
+ 
+ export function onPaymentResult(result: PaymentResult, ctx: DepositContext) {
+   if (result.status === 'success') {
+     return showSuccess(ctx.amount);
+   }
+-  return showError('Payment failed. Please try again.');
++  if (result.status === 'declined' && ctx.method === 'card' && flags.deposit_rescue_enabled) {
++    track('deposit_rescue_shown', { amount: ctx.amount });
++    return openRescueSheet({
++      title: 'Your bank declined this payment.',
++      amount: ctx.amount,
++      options: availableWallets(ctx.platform),
++    });
++  }
++  return showError("We couldn't complete your deposit. No money was taken.");
+ }
++
++function availableWallets(platform: Platform): Wallet[] {
++  const wallets: Wallet[] = [];
++  if (platform === 'ios' && applePay.hasCards()) wallets.push('apple_pay');
++  wallets.push('paypal');
++  return wallets;
++}

@@ -1,0 +1,19 @@
+{
+  "id": "streak-shield",
+  "description": "Game feature with a complete spec and a playful tone. Tests paraphrase-tolerant facts and stale-article detection.",
+  "sources": {"spec": "samples/streak-shield/spec.md"},
+  "settings": {"product": "Blitz", "tone": "playful", "language": "English"},
+  "expect": {
+    "facts": [["7 days", "seven days", "7 consecutive days", "7 days in a row"],
+              ["up to 2", "up to two", "2 at a time", "two at a time", "maximum of 2", "maximum of two"],
+              "midnight", "5.10", "Settings > Notifications", "Profile > Streaks"],
+    "stale_articles": ["knowledge_base/daily-streaks.md"],
+    "player_docs_must_not_include": ["risk-free", "guaranteed"],
+    "documents": {
+      "help_article": {"must_include": [["7 days", "seven days", "7 consecutive days", "7 days in a row"],
+                                        "midnight", "Settings > Notifications"]},
+      "faq": {"must_include": [["can't be bought", "cannot be bought", "can't buy", "cannot buy", "not for sale"],
+                               "midnight"]}
+    }
+  }
+}

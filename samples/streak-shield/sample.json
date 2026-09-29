@@ -1,0 +1,6 @@
+{
+  "title": "Streak Shield",
+  "description": "Game feature, spec only.",
+  "settings": {"product": "Blitz", "tone": "playful", "language": "English"},
+  "files": {"spec": "spec.md"}
+}
